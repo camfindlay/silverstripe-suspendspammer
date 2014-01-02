@@ -5,14 +5,14 @@ php:
 
 env:
   matrix:
-    - DB=MYSQL CORE_RELEASE=master
-    - DB=PGSQL CORE_RELEASE=master
-    - DB=SQLITE CORE_RELEASE=master
+    - DB=MYSQL CORE_RELEASE=2.4
+    - DB=PGSQL CORE_RELEASE=2.4
+    - DB=SQLITE CORE_RELEASE=2.4
 
 matrix:
   include:
     - php: 5.4
-      env: DB=MYSQL CORE_RELEASE=master 
+      env: DB=MYSQL CORE_RELEASE=2.4
 
 before_script:
   - composer self-update
