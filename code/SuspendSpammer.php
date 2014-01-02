@@ -22,6 +22,8 @@ class SuspendSpammer extends DataObjectDecorator {
 		$spam_needles = DataObject::get('SuspendSpammerKeyword');
 		if($spam_needles){
 			$spam_needles = $spam_needles->map();
+		} else {
+			$spam_needles = array();
 		}
 
 		//if anything matches do something about it to stop the spam registration.
