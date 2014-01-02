@@ -4,7 +4,7 @@ php:
     - 5.3
 
 env:
-matrix:
+  matrix:
     - DB=MYSQL CORE_RELEASE=master
     - DB=PGSQL CORE_RELEASE=master
     - DB=SQLITE CORE_RELEASE=master
