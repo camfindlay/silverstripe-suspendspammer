@@ -1,6 +1,6 @@
 # Suspend Spammer #
 
-[![Build Status](https://api.travis-ci.org/camfindlay/silverstripe-suspendspammer.png)](https://travis-ci.org/camfindlay/silverstripe-suspendspammer)
+[![Build Status](https://travis-ci.org/camfindlay/silverstripe-suspendspammer.png?branch=master)](https://travis-ci.org/camfindlay/silverstripe-suspendspammer)
 
 ## Overview ##
 This module checks new Member object writes against a user defined set of trigger keywords which may indicated that 
