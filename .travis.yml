@@ -5,16 +5,15 @@ php:
 
 env:
     - DB=MYSQL CORE_RELEASE=2.4
-    - DB=MYSQL CORE_RELEASE=3.0
 
 matrix:
   include:
     - php: 5.3
       env: DB=PGSQL CORE_RELEASE=2.4
-    - php: 5.3
-      env: DB=PGSQL CORE_RELEASE=3.0
     - php: 5.4
-      env: DB=SQLITE CORE_RELEASE=3.0
+      env: DB=SQLITE CORE_RELEASE=2.4
+    - php: 5.4
+      env: DB=MYSQL CORE_RELEASE=2.4  
 
 before_script:
   - composer self-update
