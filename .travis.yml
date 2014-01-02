@@ -24,4 +24,4 @@ before_script:
   - cd ~/builds/ss
 
 script: 
-  - phpunit suspendspammer/tests
+  - phpunit suspendspammer/tests/*
