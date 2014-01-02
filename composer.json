@@ -1,6 +1,6 @@
 {
         "name": "camfindlay/silverstripe-suspendspammer",
-        "description": "Suspends a suspected forum spammer based on user supplied keywords",
+        "description": "Suspends a suspected forum spammer registration based on user supplied keywords",
         "type": "silverstripe-module",
         "keywords": ["silverstripe","forum","spam"],
         "license": "BSD-3-Clause",
