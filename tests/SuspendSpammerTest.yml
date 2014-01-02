@@ -1,0 +1,20 @@
+SuspendSpammerKeyword:
+   keyword1:
+       Title: Astrology
+   keyword2:
+       Title: Astrologer
+   keyword3:
+       Title: Vashikaran
+Group:
+   members:
+      Title: Forum Members
+      Code: forum-members
+Member:
+   legituser:
+       Nickname: legituser
+       FirstName: Joe
+       Occupation: Developer
+       Company: ABC Ltd
+       Surname: Bloggs
+       Email: joe@bloggs.com
+       Groups: =>Group.members

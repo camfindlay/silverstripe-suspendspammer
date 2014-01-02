@@ -1,0 +1,21 @@
+{
+        "name": "camfindlay/silverstripe-suspendspammer",
+        "description": "Suspends a suspected forum spammer based on user supplied keywords",
+        "type": "silverstripe-module",
+        "keywords": ["silverstripe","forum","spam"],
+        "license": "BSD-3-Clause",
+        "authors": [
+                {
+                        "name": "Cam Findlay",
+                        "email": "cam@silverstripe.com"
+                }
+        ],
+        "require": {
+                "silverstripe/framework": "~2.4",
+                 "silverstripe/cms": "~2.4",
+                 "silverstripe/forum": "*"
+        },
+        "extra": {
+                "installer-name": "suspendspammer"
+        }
+}
