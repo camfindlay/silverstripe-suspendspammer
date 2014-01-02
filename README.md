@@ -1,5 +1,7 @@
 # Suspend Spammer #
 
+[![Build Status](https://api.travis-ci.org/camfindlay/silverstripe-suspendspammer.png)](https://travis-ci.org/camfindlay/silverstripe-suspendspammer)
+
 ## Overview ##
 This module checks new Member object writes against a user defined set of trigger keywords which may indicated that 
 the Member is infact a spammer. This is for use alongside the silverstripe/silverstripe-forum.
