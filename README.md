@@ -26,3 +26,13 @@ via command line
     sake (cd <yourwebroot> & ./sapphire/sake dev/build flush=all)
 
 ## Usage ##
+Simply go to the CMS, access the *Spam Keywords* menu then add any spam related keywords you wish to check when a new 
+member registers. 
+
+By default SuspendSpammer check the Occupation and Company fields (added by the silverstripe/forum module). 
+This can be changed by setting the following static in your _config.php file and supplying an array of keywords.
+
+    SuspendSpammer::$fields_to_check = array( 'Occupation', 'Company', 'AnyOtherKeywords' );
+
+You can also create a CSV file of keywords using the column heading 'Title' and import through the default ModelAdmin 
+importer.
