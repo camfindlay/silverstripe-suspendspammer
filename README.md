@@ -10,7 +10,8 @@ the Member is in fact a spammer. This is for use alongside the silverstripe/silv
 Cam Findlay <cam@silverstripe.com>
 
 ## Requirements ##
- * SilverStripe 2.4
+ * SilverStripe 2.4 (Framework and CMS)
+ * [Forum module (compatible with 2.4 SilverStripe core)](https://github.com/silverstripe/silverstripe-forum)
 
 ## Installation ##
 
