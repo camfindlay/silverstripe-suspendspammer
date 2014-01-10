@@ -5,7 +5,6 @@ php:
 
 env:
  - DB=MYSQL CORE_RELEASE=2.4
- - DB=PGSQL CORE_RELEASE=2.4
  - DB=SQLITE CORE_RELEASE=2.4
 
 matrix:
