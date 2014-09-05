@@ -1,0 +1,9 @@
+---
+Name: suspendspammer
+After:
+  - 'framework/*'
+  - 'cms/*'
+---
+Member:
+  extensions:
+    - SuspendSpammerExtension

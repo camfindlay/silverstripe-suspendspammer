@@ -5,8 +5,6 @@
  * @author Cam Findlay <cam@silverstripe.com>
  * @package suspendspammer
  */
-
-
 class SuspendSpammerTest extends SapphireTest {
 
 	static $fixture_file = "suspendspammer/tests/SuspendSpammerTest.yml";
@@ -15,23 +13,22 @@ class SuspendSpammerTest extends SapphireTest {
 	/**
 	 * Ensure the legit user is allowed to be created and not suspended.
 	 */
-	public function testLegitUserNotBlocked()
-	{
+	public function testLegitUserNotBlocked() {
 
-		$user = DataObject::get_one("Member", "Nickname = 'legituser'");
+		$user = Member::get()->filter('Nickname','legituser')->First();
+		Debug::show($user->ForumStatus);
 
 		$this->assertTrue($user ? true : false);
-		$this->assertFalse($user->IsSuspended());
+		$this->assertNotEquals($user->ForumStatus, 'Ghost');
 
 	}
 
 	/**
 	 * Ensure a spammer get their account suspended straight away.
 	 */
-	public function testSpamUserSuspended()
-	{
+	public function testSpamUserSuspended()	{
 
-		$spammer = new Member();
+		$spammer = Member::create();
 		$spammer->Nickname = "loveguru69";
 		$spammer->FirstName = "LoveGuru";
 		$spammer->Occupation = "Astrology";
@@ -40,11 +37,10 @@ class SuspendSpammerTest extends SapphireTest {
 
 		$spammer->write();
 
-		$user = DataObject::get_one("Member", "Nickname = 'loveguru69'");
+		$user = Member::get()->filter('Nickname','loveguru69')->First();
 
 		$this->assertTrue($user ? true : false);
-		$this->assertTrue($user->IsSuspended());
-
+		$this->assertEquals($user->ForumStatus, 'Ghost');
 
 	}
 

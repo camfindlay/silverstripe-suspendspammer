@@ -6,8 +6,7 @@
  * @package suspendspammer
  */
 
-
-class SuspendSpammer extends DataObjectDecorator {
+class SuspendSpammerExtension extends DataExtension {
 
 	//Commonly filled in fields in the forum module to check.
 	public static $fields_to_check = array( 'Occupation', 'Company' );
@@ -25,19 +24,21 @@ class SuspendSpammer extends DataObjectDecorator {
 	public function onBeforeWrite() {
 		parent::onBeforeWrite();
 
-		$spam_needles = DataObject::get( 'SuspendSpammerKeyword' );
+		$spam_needles = SuspendSpammerKeyword::get();
 		if ( $spam_needles ) {
-			$spam_needles = $spam_needles->map();
+			$spam_needles = $spam_needles->map()->toArray();
 		} else {
 			$spam_needles = array();
 		}
 
 		//if anything matches do something about it to stop the spam registration.
 		if ( 0 < count( array_intersect( $this->spamHaystack() , $spam_needles ) ) ) {
-			$this->owner->SuspendedUntil = date( 'Y-m-d', time() + strtotime( '+ 100 years' ) );
+			
+			//Ghost a spammer.
+			$this->owner->ForumStatus = 'Ghost';
 
 			//Email the admin to let them know to check the registration and re-enable if it was a false positive.
-			if ( self::$enable_email ) {
+			if ( self::$enable_email && !$this->owner->ID ) {
 				
 				$from = Email::getAdminEmail();
 				
@@ -53,7 +54,7 @@ class SuspendSpammer extends DataObjectDecorator {
 				}
 				$body .= "</ul>";
 
-				$email = new Email( $from, $to, $subject, $body );
+				$email = Email::create( $from, $to, $subject, $body );
 				$email->send();
 			}
 		}
