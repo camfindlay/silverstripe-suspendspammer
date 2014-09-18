@@ -8,9 +8,9 @@
 
 class SuspendSpammerAdmin extends ModelAdmin {
 	
-	static $managed_models = array('SuspendSpammerKeyword');
+	private static $managed_models = array('SuspendSpammerKeyword');
 
-	static $url_segment = 'spamkeywords';
+	private static $url_segment = 'spamkeywords';
 	
-	static $menu_title = 'Spam Keywords';
+	private static $menu_title = 'Spam Keywords';
 }

@@ -8,11 +8,11 @@
 
 class SuspendSpammerKeyword extends DataObject {
 
-	public static $db = array(
+	private static $db = array(
 		'Title' => 'Varchar(255)'
 	);
 
-	public static $field_labels = array(
+	private static $field_labels = array(
 		'Title' => 'Spam Keyword'
 	);
 

@@ -9,13 +9,13 @@
 class SuspendSpammerExtension extends DataExtension {
 
 	//Commonly filled in fields in the forum module to check.
-	public static $fields_to_check = array( 'Occupation', 'Company' );
+	private static $fields_to_check = array( 'Occupation', 'Company' );
 
 	//enable emails to be send to admin on suspected spammer registrations.
-	public static $enable_email = false;
+	private static $enable_email = false;
 
 	//Email address to send suspended registrations to for review.
-	public static $email_to;
+	private static $email_to;
 
 
 	/**
