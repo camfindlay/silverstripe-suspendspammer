@@ -32,9 +32,13 @@ Simply go to the CMS, access the *Spam Keywords* menu then add any spam related 
 member registers. 
 
 By default SuspendSpammer check the Occupation and Company fields (added by the silverstripe/forum module). 
-This can be changed by setting the following static in your _config.php file and supplying an array of keywords.
+This can be changed by setting the following static in your _config/config.yml file and supplying an array of keywords.
 
-    SuspendSpammer::$fields_to_check = array( 'Occupation', 'Company', 'AnyOtherKeywords' );
+    SuspendSpammerExtension:
+      fields_to_check:
+        - Occupation
+        - Company
+        - AnyOtherKeywords
 
 You can also create a CSV file of keywords using the column heading 'Title' and import through the default ModelAdmin 
 importer.
@@ -46,10 +50,12 @@ The notification email includes the email address of the suspected spammer (so y
 
 This will allow you to perform a quick smoke test in case there was a false-positive and the registration was a legitimate member.
 
-To enable set the following in your *mysite/_config.php* file:  
+To enable set the following in your *_config/config.yml* file:  
     
-    Email::setAdminEmail('admin@yourdomain.com');
-    SuspendSpammer::$email_to = 'you@yourdomain.com';
-    SuspendSpammer::$enable_email = true;
+    Admin:
+      admin_email: 'admin@yourdomain.com'
+    SuspendSpammerExtension:
+      email_to: you@yourdomain.com
+      enable_email: true
     
-The 'AdminEmail' is the address the email will come from, 'email_to' sets the address of the person you wish to be notified of the spam registration. Lastly you have to enable notification emails with 'enable_email'.
+The 'admin_email' is the address the email will come from, 'email_to' sets the address of the person you wish to be notified of the spam registration. Lastly you have to enable notification emails with 'enable_email'.
