@@ -34,7 +34,7 @@ member registers.
 By default SuspendSpammer check the Occupation and Company fields (added by the silverstripe/forum module). 
 This can be changed by setting the following static in your _config/config.yml file and supplying an array of keywords.
 
-    SuspendSpammerExtension:
+    Member:
       fields_to_check:
         - Occupation
         - Company
@@ -54,7 +54,7 @@ To enable set the following in your *_config/config.yml* file:
     
     Admin:
       admin_email: 'admin@yourdomain.com'
-    SuspendSpammerExtension:
+    Member:
       email_to: you@yourdomain.com
       enable_email: true
     
