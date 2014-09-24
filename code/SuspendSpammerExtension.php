@@ -61,7 +61,7 @@ class SuspendSpammerExtension extends DataExtension {
 				}
 				$body .= "</ul>";
 
-				$email = Email::create( $from, $to, $subject, $body );
+				$email = Email::create($from, $to, $subject, $body);
 				$email->send();
 			}
 		}
