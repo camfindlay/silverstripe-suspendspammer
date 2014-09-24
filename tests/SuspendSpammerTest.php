@@ -9,6 +9,20 @@ class SuspendSpammerTest extends SapphireTest {
 
 	static $fixture_file = 'suspendspammer/tests/SuspendSpammerTest.yml';
 
+	public function setUp() {
+		Config::nest();
+		parent::setUp();
+
+		Config::inst()->update('Email', 'admin_email', 'no-reply@somewhere.com');
+		Config::inst()->update('Member', 'email_to', 'someone@somewhere.com');
+		Config::inst()->update('Member', 'enable_email', true);
+	}
+
+	public function tearDown() {
+		parent::tearDown();
+		Config::unnest();
+	}
+
 	/**
 	 * Ensure a spammer get their account suspended straight away.
 	 */
@@ -36,6 +50,7 @@ class SuspendSpammerTest extends SapphireTest {
 
 		$user = Member::get()->filter('Nickname','loveguru69')->first();
 		$this->assertEquals($user->ForumStatus, 'Ghost');
+		$this->assertEmailSent('someone@somewhere.com', 'no-reply@somewhere.com', 'Suspected spammer registration suspended.');
 
 		$user->ForumStatus = 'Normal';
 		$user->write();
