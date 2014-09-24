@@ -50,7 +50,7 @@ class SuspendSpammerExtension extends DataExtension {
 
 			//Email the admin to let them know to check the registration and re-enable if it was a false positive.
 			if($this->owner->config()->enable_email && !$this->owner->ID) {
-				$from = Email::getAdminEmail();
+				$from = Config::inst()->get('Email', 'admin_email');
 				$to = $this->owner->config()->email_to;
 				$subject = "Suspected spammer registration suspended.";
 				$body = "<h1>Suspected Spammer Details</h1>
