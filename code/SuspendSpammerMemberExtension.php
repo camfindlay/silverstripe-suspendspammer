@@ -5,7 +5,7 @@
  * @author Cam Findlay <cam@silverstripe.com>
  * @package suspendspammer
  */
-class SuspendSpammerExtension extends DataExtension {
+class SuspendSpammerMemberExtension extends DataExtension {
 
 	//Commonly filled in fields in the forum module to check.
 	private static $fields_to_check = array(
@@ -13,14 +13,8 @@ class SuspendSpammerExtension extends DataExtension {
 		'Company'
 	);
 
-	//enable emails to be send to admin on suspected spammer registrations.
-	private static $enable_email = false;
-
-	//Email address to send suspended registrations to for review.
-	private static $email_to;
-
 	/**
-	 * Decorate the Member object to stop the writing of registrations is the user is suspected of being a spammer.
+	 * Decorate the Member object to ghost the user if suspected of being a spammer.
 	 */
 	public function onBeforeWrite() {
 		parent::onBeforeWrite();
@@ -48,12 +42,9 @@ class SuspendSpammerExtension extends DataExtension {
 			//Ghost a spammer.
 			$this->owner->ForumStatus = 'Ghost';
 
-			//Email the admin to let them know to check the registration and re-enable if it was a false positive.
-			if($this->owner->config()->enable_email && !$this->owner->ID) {
-				$from = Config::inst()->get('Email', 'admin_email');
-				$to = $this->owner->config()->email_to;
-				$subject = "Suspected spammer registration suspended.";
-				$body = "<h1>Suspected Spammer Details</h1>
+			//Email the admin
+			if(Config::inst()->get('SuspendSpammerEmail', 'enable_email') && !$this->owner->ID) {
+				$body = "<h1>Suspected Spammer Registration</h1>
 				<ul>
 				<li>Email: " . $this->owner->Email . "</li>";
 				foreach($this->owner->config()->fields_to_check as $field ) {
@@ -61,9 +52,12 @@ class SuspendSpammerExtension extends DataExtension {
 				}
 				$body .= "</ul>";
 
-				$email = Email::create($from, $to, $subject, $body);
-				$email->send();
+				SuspendSpammerEmail::create($body)
+					->send();
 			}
+			
+			
+			
 		}
 	}
 

@@ -15,7 +15,18 @@ class SuspendSpammerKeyword extends DataObject {
 	private static $field_labels = array(
 		'Title' => 'Spam Keyword'
 	);
+	
+	public function requireDefaultRecords() {
+			parent::requireDefaultRecords();
+			//Ensure at least 1 spam keyword exists.
+			if( !SuspendSpammerKeyword::get()->Exists() ) {
+				$keyword = SuspendSpammerKeyword::create();
+				$keyword->Title = 'astrologer';
+				$keyword->write();
+			}
 
+		}
+		
 	/**
 	 * Trims and makes the keywords lowercase for comparison.
 	 */
