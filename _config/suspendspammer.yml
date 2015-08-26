@@ -6,4 +6,8 @@ After:
 ---
 Member:
   extensions:
-    - SuspendSpammerExtension
+    - SuspendSpammerMemberExtension
+Forum_Controller:
+  extensions:
+    - SuspendSpammerForumControllerExtension
+  
