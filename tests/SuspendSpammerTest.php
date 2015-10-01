@@ -14,8 +14,8 @@ class SuspendSpammerTest extends SapphireTest {
 		parent::setUp();
 
 		Config::inst()->update('Email', 'admin_email', 'no-reply@somewhere.com');
-		Config::inst()->update('Member', 'email_to', 'someone@somewhere.com');
-		Config::inst()->update('Member', 'enable_email', true);
+		Config::inst()->update('SuspendSpammerEmail', 'email_to', 'someone@somewhere.com');
+		Config::inst()->update('SuspendSpammerEmail', 'enable_email', true);
 	}
 
 	public function tearDown() {
@@ -38,6 +38,41 @@ class SuspendSpammerTest extends SapphireTest {
 		$user = Member::get()->filter('Nickname','loveguru69')->first();
 		$this->assertEquals($user->ForumStatus, 'Ghost');
 	}
+	
+	public function testSpamPosterSuspended(){
+		$spammer = Member::create();
+		$spammer->Nickname = 'sneaky';
+		$spammer->FirstName = 'spammer';
+		$spammer->Email = 'spammer@gmail.com';
+		$spammer->ForumStatus = 'Normal';
+		$spammer->write();
+
+		$this->assertEquals($spammer->ForumStatus, 'Normal');
+
+		$spammypost = array(
+			'Title'=>'Astrology',
+			'Content'=>'vashikaran specialist mantra'
+		);
+
+		$hammypost = array(
+			'Title'=>'Not spam',
+			'Content'=>'Nothing to see here.'
+		);
+
+		
+
+		$spamforumext = new SuspendSpammerForumControllerExtension();
+		
+		//Status should not change.
+		$spamforumext->beforePostMessage($hammypost, $spammer);
+		$user = Member::get()->filter('Nickname','sneaky')->first();
+		$this->assertEquals($user->ForumStatus, 'Normal');
+		
+		//Status should change.
+		$spamforumext->beforePostMessage($spammypost, $spammer);
+		$user = Member::get()->filter('Nickname','sneaky')->first();
+		$this->assertEquals($user->ForumStatus, 'Ghost');
+	}
 
 	public function testUnchangedFieldsDoesNotTriggerStatusChange() {
 		$spammer = Member::create();
@@ -50,7 +85,7 @@ class SuspendSpammerTest extends SapphireTest {
 
 		$user = Member::get()->filter('Nickname','loveguru69')->first();
 		$this->assertEquals($user->ForumStatus, 'Ghost');
-		$this->assertEmailSent('someone@somewhere.com', 'no-reply@somewhere.com', 'Suspected spammer registration suspended.');
+		$this->assertEmailSent('someone@somewhere.com', 'no-reply@somewhere.com', 'Suspected spammer: Please review');
 
 		$user->ForumStatus = 'Normal';
 		$user->write();
