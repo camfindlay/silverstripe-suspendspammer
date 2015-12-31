@@ -6,11 +6,12 @@
  * @package suspendspammer
  **/
 
-class SuspendSpammerAdmin extends ModelAdmin {
-	
-	private static $managed_models = array('SuspendSpammerKeyword');
+class SuspendSpammerAdmin extends ModelAdmin
+{
+    
+    private static $managed_models = array('SuspendSpammerKeyword');
 
-	private static $url_segment = 'spamkeywords';
-	
-	private static $menu_title = 'Spam Keywords';
+    private static $url_segment = 'spamkeywords';
+    
+    private static $menu_title = 'Spam Keywords';
 }

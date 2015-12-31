@@ -5,92 +5,97 @@
  * @author Cam Findlay <cam@silverstripe.com>
  * @package suspendspammer
  */
-class SuspendSpammerTest extends SapphireTest {
+class SuspendSpammerTest extends SapphireTest
+{
 
-	static $fixture_file = 'suspendspammer/tests/SuspendSpammerTest.yml';
+    public static $fixture_file = 'suspendspammer/tests/SuspendSpammerTest.yml';
 
-	public function setUp() {
-		Config::nest();
-		parent::setUp();
+    public function setUp()
+    {
+        Config::nest();
+        parent::setUp();
 
-		Config::inst()->update('Email', 'admin_email', 'no-reply@somewhere.com');
-		Config::inst()->update('SuspendSpammerEmail', 'email_to', 'someone@somewhere.com');
-		Config::inst()->update('SuspendSpammerEmail', 'enable_email', true);
-	}
+        Config::inst()->update('Email', 'admin_email', 'no-reply@somewhere.com');
+        Config::inst()->update('SuspendSpammerEmail', 'email_to', 'someone@somewhere.com');
+        Config::inst()->update('SuspendSpammerEmail', 'enable_email', true);
+    }
 
-	public function tearDown() {
-		parent::tearDown();
-		Config::unnest();
-	}
+    public function tearDown()
+    {
+        parent::tearDown();
+        Config::unnest();
+    }
 
-	/**
-	 * Ensure a spammer get their account suspended straight away.
-	 */
-	public function testSpamUserSuspended()	{
-		$spammer = Member::create();
-		$spammer->Nickname = 'loveguru69';
-		$spammer->FirstName = 'LoveGuru';
-		$spammer->Occupation = 'Astrology';
-		$spammer->Company = 'vashikaran specialist mantra';
-		$spammer->Email = 'loveguru69@gmail.com';
-		$spammer->write();
+    /**
+     * Ensure a spammer get their account suspended straight away.
+     */
+    public function testSpamUserSuspended()
+    {
+        $spammer = Member::create();
+        $spammer->Nickname = 'loveguru69';
+        $spammer->FirstName = 'LoveGuru';
+        $spammer->Occupation = 'Astrology';
+        $spammer->Company = 'vashikaran specialist mantra';
+        $spammer->Email = 'loveguru69@gmail.com';
+        $spammer->write();
 
-		$user = Member::get()->filter('Nickname','loveguru69')->first();
-		$this->assertEquals($user->ForumStatus, 'Ghost');
-	}
-	
-	public function testSpamPosterSuspended(){
-		$spammer = Member::create();
-		$spammer->Nickname = 'sneaky';
-		$spammer->FirstName = 'spammer';
-		$spammer->Email = 'spammer@gmail.com';
-		$spammer->ForumStatus = 'Normal';
-		$spammer->write();
+        $user = Member::get()->filter('Nickname', 'loveguru69')->first();
+        $this->assertEquals($user->ForumStatus, 'Ghost');
+    }
+    
+    public function testSpamPosterSuspended()
+    {
+        $spammer = Member::create();
+        $spammer->Nickname = 'sneaky';
+        $spammer->FirstName = 'spammer';
+        $spammer->Email = 'spammer@gmail.com';
+        $spammer->ForumStatus = 'Normal';
+        $spammer->write();
 
-		$this->assertEquals($spammer->ForumStatus, 'Normal');
+        $this->assertEquals($spammer->ForumStatus, 'Normal');
 
-		$spammypost = array(
-			'Title'=>'Astrology',
-			'Content'=>'vashikaran specialist mantra'
-		);
+        $spammypost = array(
+            'Title'=>'Astrology',
+            'Content'=>'vashikaran specialist mantra'
+        );
 
-		$hammypost = array(
-			'Title'=>'Not spam',
-			'Content'=>'Nothing to see here.'
-		);
+        $hammypost = array(
+            'Title'=>'Not spam',
+            'Content'=>'Nothing to see here.'
+        );
 
-		
+        
 
-		$spamforumext = new SuspendSpammerForumControllerExtension();
-		
-		//Status should not change.
-		$spamforumext->beforePostMessage($hammypost, $spammer);
-		$user = Member::get()->filter('Nickname','sneaky')->first();
-		$this->assertEquals($user->ForumStatus, 'Normal');
-		
-		//Status should change.
-		$spamforumext->beforePostMessage($spammypost, $spammer);
-		$user = Member::get()->filter('Nickname','sneaky')->first();
-		$this->assertEquals($user->ForumStatus, 'Ghost');
-	}
+        $spamforumext = new SuspendSpammerForumControllerExtension();
+        
+        //Status should not change.
+        $spamforumext->beforePostMessage($hammypost, $spammer);
+        $user = Member::get()->filter('Nickname', 'sneaky')->first();
+        $this->assertEquals($user->ForumStatus, 'Normal');
+        
+        //Status should change.
+        $spamforumext->beforePostMessage($spammypost, $spammer);
+        $user = Member::get()->filter('Nickname', 'sneaky')->first();
+        $this->assertEquals($user->ForumStatus, 'Ghost');
+    }
 
-	public function testUnchangedFieldsDoesNotTriggerStatusChange() {
-		$spammer = Member::create();
-		$spammer->Nickname = 'loveguru69';
-		$spammer->FirstName = 'LoveGuru';
-		$spammer->Occupation = 'Astrology';
-		$spammer->Company = 'vashikaran specialist mantra';
-		$spammer->Email = 'loveguru69@gmail.com';
-		$spammer->write();
+    public function testUnchangedFieldsDoesNotTriggerStatusChange()
+    {
+        $spammer = Member::create();
+        $spammer->Nickname = 'loveguru69';
+        $spammer->FirstName = 'LoveGuru';
+        $spammer->Occupation = 'Astrology';
+        $spammer->Company = 'vashikaran specialist mantra';
+        $spammer->Email = 'loveguru69@gmail.com';
+        $spammer->write();
 
-		$user = Member::get()->filter('Nickname','loveguru69')->first();
-		$this->assertEquals($user->ForumStatus, 'Ghost');
-		$this->assertEmailSent('someone@somewhere.com', 'no-reply@somewhere.com', 'Suspected spammer: Please review');
+        $user = Member::get()->filter('Nickname', 'loveguru69')->first();
+        $this->assertEquals($user->ForumStatus, 'Ghost');
+        $this->assertEmailSent('someone@somewhere.com', 'no-reply@somewhere.com', 'Suspected spammer: Please review');
 
-		$user->ForumStatus = 'Normal';
-		$user->write();
+        $user->ForumStatus = 'Normal';
+        $user->write();
 
-		$this->assertEquals($user->ForumStatus, 'Normal');
-	}
-
+        $this->assertEquals($user->ForumStatus, 'Normal');
+    }
 }
